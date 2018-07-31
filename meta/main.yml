@@ -1,0 +1,15 @@
+galaxy_info:
+  role_name: drift
+  author: systemli
+  description: Create mails showing your configuration drift from an ansible playbook
+  company: systemli.org
+  license: GPLv3
+  min_ansible_version: 2.0
+  galaxy_tags:
+    - ansible
+    - configuration_drift
+  platforms:
+    - name: Debian
+      versions:
+        - all
+dependencies: []
