@@ -1,0 +1,50 @@
+---
+# tasks file for drift
+
+- name: Copy ansible-drift
+  template:
+    src: ansible-drift.j2
+    dest: /usr/local/bin/ansible-drift
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Make sure we have .ssh dir
+  file:
+    path: /home/{{ drift_user }}/.ssh
+    state: directory
+    mode: 0700
+  when: drift_ssh_private_key|d()
+
+- name: Make sure we have ssh private key
+  copy:
+    content: "{{ drift_ssh_private_key }}"
+    dest: /home/{{ drift_user }}/.ssh/id_rsa
+    owner: "{{ drift_user }}"
+    group: "{{ drift_user }}"
+    mode: 0600
+  when: drift_ssh_private_key|d()
+
+- name: Make sure we have ssh public key
+  copy:
+    content: "{{ drift_ssh_public_key }}\n"
+    dest: /home/{{ drift_user }}/.ssh/id_rsa.pub
+    owner: "{{ drift_user }}"
+    group: "{{ drift_user }}"
+    mode: 0644
+  when: drift_ssh_private_key|d()
+
+- name: Create cron job
+  template:
+    src: cron.j2
+    dest: /etc/cron.d/ansible-drift
+    owner: root
+    group: root
+    mode: 0644
+  when: drift_playbook|d()
+
+- name: Delete cron job
+  file:
+    path: /etc/cron.d/ansible-drift
+    state: absent
+  when: not drift_playbook|d()
