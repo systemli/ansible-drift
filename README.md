@@ -29,7 +29,9 @@ drift_branch: ""
 
 Download latest release with `ansible-galaxy`
 
+```
 $ ansible-galaxy install systemli.drift
+```
 
 ## Example Playbook
 
