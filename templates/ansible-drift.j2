@@ -34,7 +34,7 @@ fi
 # if there is drift send it via mail
 
 for h in $hostlist; do
-  body="$(ansible-playbook $playbook -l $h --check --diff)"
+  body="$(ansible-playbook --flush-cache $playbook --limit $h --check --diff)"
   if [ -n "$body" ]; then
     echo "$body" | mail -s "[ansible-drift] $h $message" $receiver
   fi
