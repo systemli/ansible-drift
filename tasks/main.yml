@@ -77,3 +77,5 @@
   command: loginctl enable-linger {{ drift_user }}
   args:
     creates: /var/lib/systemd/linger/{{ drift_user }}
+  tags:
+    - molecule-notest
