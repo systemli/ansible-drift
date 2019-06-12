@@ -72,3 +72,8 @@
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
     mode: 0644
+
+- name: Don't kill gpg-agent after logout
+  command: loginctl enable-linger {{ drift_user }}
+  args:
+    creates: /var/lib/systemd/linger/{{ drift_user }}
