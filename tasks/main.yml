@@ -9,12 +9,17 @@
     group: root
     mode: 0755
 
+- name: Ensure user is present
+  user:
+    name: "{{ drift_user }}"
+
 - name: Make sure we have .ssh dir
   file:
     path: /home/{{ drift_user }}/.ssh
     state: directory
+    owner: "{{ drift_user }}"
+    group: "{{ drift_user }}"
     mode: 0700
-  when: drift_ssh_private_key|d()
 
 - name: Make sure we have ssh private key
   copy:
@@ -48,3 +53,22 @@
     path: /etc/cron.d/ansible-drift
     state: absent
   when: not drift_playbook|d()
+
+- name: Make sure we have .gnupg dir
+  file:
+    path: /home/{{ drift_user }}/.gnupg
+    state: directory
+    owner: "{{ drift_user }}"
+    group: "{{ drift_user }}"
+    mode: 0700
+
+- name: Cache gpg credentials for long time
+  copy:
+    content: |
+      # cache credentials 400 days
+      default-cache-ttl 34560000
+      max-cache-ttl 34560000
+    dest: /home/{{ drift_user }}/.gnupg/gpg-agent.conf
+    owner: "{{ drift_user }}"
+    group: "{{ drift_user }}"
+    mode: 0644

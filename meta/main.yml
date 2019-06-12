@@ -1,5 +1,4 @@
 ---
-
 galaxy_info:
   role_name: drift
   author: systemli
@@ -9,7 +8,8 @@ galaxy_info:
   min_ansible_version: 2.0
   galaxy_tags:
     - ansible
-    - configuration_drift
+    - configuration
+    - drift
   platforms:
     - name: Debian
       versions:
