@@ -10,7 +10,8 @@ message="has drifted away"
 export ANSIBLE_DEPRECATION_WARNINGS=False
 export ANSIBLE_COMMAND_WARNINGS=False
 export ANSIBLE_STDOUT_CALLBACK=actionable
-export DISPLAY_SKIPPED_HOSTS=no 
+export ANSIBLE_DISPLAY_SKIPPED_HOSTS=False
+export DISPLAY_SKIPPED_HOSTS=False
 
 # check argument and construct vars
 if [ $# -ne 1 ]; then
