@@ -2,7 +2,7 @@
 # defaults file for drift
 
 # a bash compatible list of hosts you want to check
-drift_hostlist: "{{ groups['all']|sort|join(' ') }}"
+drift_hostlist: "\n  {{ groups['all']|sort|join('\n  ') }}\n"
 
 # send mails to
 drift_receiver: root
