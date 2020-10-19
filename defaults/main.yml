@@ -16,3 +16,6 @@ drift_user: ansible
 # define a git branch to pull
 # drift_branch: "origin master"
 drift_branch: ""
+
+# exlucded tags as a comma separated list drift_excluded_tags: "first_tag,second_tag"
+drift_excluded_tags: ""

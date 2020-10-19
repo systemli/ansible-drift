@@ -5,6 +5,7 @@ hostlist="{{ drift_hostlist }}"
 receiver="{{ drift_receiver }}"
 branch="{{ drift_branch }}"
 message="has drifted away"
+excluded_tags={{ drift_excluded_tags }}
 
 # set environment variable
 export ANSIBLE_DEPRECATION_WARNINGS=False
@@ -35,7 +36,7 @@ fi
 # if there is drift send it via mail
 
 for h in $hostlist; do
-  body="$(ansible-playbook --flush-cache $playbook --limit $h --check --diff)"
+  body="$(ansible-playbook --flush-cache $playbook --limit $h --check --diff{% if drift_excluded_tags|length > 0 %} --skip-tags $excluded_tags{% endif %})"
   if [ -n "$body" ]; then
     echo "$body" | mail -s "[ansible-drift] $h $message" $receiver
   fi
