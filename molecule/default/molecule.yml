@@ -5,16 +5,12 @@ driver:
   name: vagrant
   provider:
     name: virtualbox
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
 platforms:
   - name: instance
     box: debian/buster64
 provisioner:
   become: true
-  lint:
-    name: ansible-lint
-verifier:
-  name: goss
-  lint:
-    name: yamllint

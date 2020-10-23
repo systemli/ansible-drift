@@ -52,7 +52,7 @@ molecule test
 ```
 Requires Molecule, Vagrant and `python-vagrant` to be installed.
 
-This role is uses continous testing with Molecule, Goss and Travis CI.
+This role is uses continous testing with Molecule and Travis CI.
 
 ## License
 
