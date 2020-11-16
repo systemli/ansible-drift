@@ -43,16 +43,23 @@ $ ansible-galaxy install systemli.drift
     drift_playbook: /home/ansible/ansible/site.yml
 ```
 
-Testing
--------
+Testing & Development
+---------------------
+
+Tests
+-----
+
+For developing and testing the role we use Github Actions, Molecule, and Vagrant. On the local environment you can easily test the role with
 
 Run local tests with:
-```
-molecule test
-```
-Requires Molecule, Vagrant and `python-vagrant` to be installed.
 
-This role is uses continous testing with Molecule and Travis CI.
+```
+molecule test 
+```
+
+Requires Molecule, Vagrant and `python-vagrant` to be installed.For developing and testing the role we use Travis CI, Molecule and Vagrant. On the local environment you can easily test the role with
+
+
 
 ## License
 
