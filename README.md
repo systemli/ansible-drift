@@ -1,5 +1,8 @@
 # ansible-drift
 
+[![Build Status](https://github.com/systemli/ansible-role-drift/workflows/Molecule/badge.svg?branch=master)](https://github.com/systemli/ansible-role-drift/actions?query=workflow%3AMolecule)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-drift-blue.svg)](https://galaxy.ansible.com/systemli/drift)
+
 ansible-drift will send mails showing your configration drift from a specified playbook.
 The script can be run interactively or via cron and update your git repo if necessary.
 Each host in hostlist will be checked separately.
