@@ -1,6 +1,6 @@
 # ansible-drift
 
-[![Build Status](https://github.com/systemli/ansible-drift/workflows/Molecule/badge.svg?branch=master)](https://github.com/systemli/ansible-role-drift/actions?query=workflow%3AMolecule)
+[![Build Status](https://github.com/systemli/ansible-drift/workflows/Integration/badge.svg?branch=master)](https://github.com/systemli/ansible-role-drift/actions?query=workflow%3AIntegration)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-drift-blue.svg)](https://galaxy.ansible.com/systemli/drift)
 
 ansible-drift will send mails showing your configration drift from a specified playbook.
