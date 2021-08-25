@@ -11,6 +11,6 @@ lint: |
   ansible-lint
 platforms:
   - name: instance
-    box: debian/buster64
+    box: debian/bullseye64
 provisioner:
   become: true
