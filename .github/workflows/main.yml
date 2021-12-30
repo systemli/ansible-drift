@@ -16,16 +16,15 @@ jobs:
     strategy:
       matrix:
         distro:
-          - debian11
           - debian10
           - debian9
 
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2
 
       - name: Set up Python 3.
-        uses: actions/setup-python@v2.3.0
+        uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
