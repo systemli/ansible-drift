@@ -1,6 +1,6 @@
 # ansible-drift
 
-[![Build Status](https://github.com/systemli/ansible-drift/workflows/Integration/badge.svg?branch=master)](https://github.com/systemli/ansible-drift/actions?query=workflow%3AIntegration)
+[![Build Status](https://github.com/systemli/ansible-drift/workflows/Integration/badge.svg?branch=main)](https://github.com/systemli/ansible-drift/actions?query=workflow%3AIntegration)
 [![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-drift-blue.svg)](https://galaxy.ansible.com/systemli/drift)
 
 ansible-drift will send mails showing your configration drift from a specified playbook.
@@ -23,7 +23,7 @@ drift_user: ansible
 # drift_playbook:
 
 # define a git branch to pull
-# drift_branch: "origin master"
+# drift_branch: "origin main"
 drift_branch: ""
 
 ```
