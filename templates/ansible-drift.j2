@@ -8,11 +8,10 @@ message="has drifted away"
 excluded_tags={{ drift_excluded_tags }}
 
 # set environment variable
-export ANSIBLE_DEPRECATION_WARNINGS=False
-export ANSIBLE_COMMAND_WARNINGS=False
-export ANSIBLE_STDOUT_CALLBACK=actionable
-export ANSIBLE_DISPLAY_SKIPPED_HOSTS=False
-export DISPLAY_SKIPPED_HOSTS=False
+export ANSIBLE_DEPRECATION_WARNINGS=no
+export ANSIBLE_COMMAND_WARNINGS=no
+export ANSIBLE_DISPLAY_OK_HOSTS=no
+export ANSIBLE_DISPLAY_SKIPPED_HOSTS=no
 
 # check argument and construct vars
 if [ $# -ne 1 ]; then
