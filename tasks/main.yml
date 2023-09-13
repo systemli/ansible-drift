@@ -1,69 +1,67 @@
 ---
-# tasks file for drift
-
 - name: Copy ansible-drift
-  template:
+  ansible.builtin.template:
     src: ansible-drift.j2
     dest: /usr/local/bin/ansible-drift
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 - name: Ensure user is present
-  user:
+  ansible.builtin.user:
     name: "{{ drift_user }}"
 
 - name: Make sure we have .ssh dir
-  file:
+  ansible.builtin.file:
     path: /home/{{ drift_user }}/.ssh
     state: directory
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
-    mode: 0700
+    mode: "0700"
 
 - name: Make sure we have ssh private key
-  copy:
+  ansible.builtin.copy:
     content: "{{ drift_ssh_private_key }}"
     dest: /home/{{ drift_user }}/.ssh/id_rsa
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
-    mode: 0600
+    mode: "0600"
   when: drift_ssh_private_key|d()
 
 - name: Make sure we have ssh public key
-  copy:
+  ansible.builtin.copy:
     content: "{{ drift_ssh_public_key }}\n"
     dest: /home/{{ drift_user }}/.ssh/id_rsa.pub
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
-    mode: 0644
+    mode: "0644"
   when: drift_ssh_private_key|d()
 
 - name: Create cron job
-  template:
+  ansible.builtin.template:
     src: cron.j2
     dest: /etc/cron.d/ansible-drift
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: drift_playbook|d()
 
 - name: Delete cron job
-  file:
+  ansible.builtin.file:
     path: /etc/cron.d/ansible-drift
     state: absent
   when: not drift_playbook|d()
 
 - name: Make sure we have .gnupg dir
-  file:
+  ansible.builtin.file:
     path: /home/{{ drift_user }}/.gnupg
     state: directory
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
-    mode: 0700
+    mode: "0700"
 
 - name: Cache gpg credentials for long time
-  copy:
+  ansible.builtin.copy:
     content: |
       # cache credentials 400 days
       default-cache-ttl 34560000
@@ -71,10 +69,10 @@
     dest: /home/{{ drift_user }}/.gnupg/gpg-agent.conf
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
-    mode: 0644
+    mode: "0644"
 
 - name: Don't kill gpg-agent after logout
-  command: loginctl enable-linger {{ drift_user }}
+  ansible.builtin.command: loginctl enable-linger {{ drift_user }}
   args:
     creates: /var/lib/systemd/linger/{{ drift_user }}
   tags:
