@@ -28,6 +28,11 @@ cd "$dir" || exit 1
 if [ -n "$branch" ]; then
   git pull --quiet --ff-only $branch
   git submodule update --init --recursive --quiet
+
+  if [ -f requirements.yml ]; then
+    ansible-galaxy install -r requirements.yml --force >/dev/null 2>&1
+  fi
+
   message="$message from $branch"
 fi
 
