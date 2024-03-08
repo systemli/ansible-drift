@@ -31,7 +31,7 @@ if [ -n "$branch" ]; then
   git submodule update --init --recursive --quiet
 
   if [ -f requirements.yml ]; then
-    ansible-galaxy install -r requirements.yml --force >/dev/null 2>&1
+    ansible-galaxy install --ignore-errors -r requirements.yml --force >/dev/null 2>&1
   fi
 
   message="$message from $branch"
