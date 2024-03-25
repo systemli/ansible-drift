@@ -13,5 +13,5 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - all
+        - bookworm
 dependencies: []
