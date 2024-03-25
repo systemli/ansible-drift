@@ -37,20 +37,10 @@
     mode: "0644"
   when: drift_ssh_private_key|d()
 
-- name: Create cron job
-  ansible.builtin.template:
-    src: cron.j2
-    dest: /etc/cron.d/ansible-drift
-    owner: root
-    group: root
-    mode: "0644"
-  when: drift_playbook|d()
-
-- name: Delete cron job
+- name: Remove cron job
   ansible.builtin.file:
     path: /etc/cron.d/ansible-drift
     state: absent
-  when: not drift_playbook|d()
 
 - name: Make sure we have .gnupg dir
   ansible.builtin.file:
