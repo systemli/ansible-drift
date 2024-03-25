@@ -1,0 +1,9 @@
+[Unit]
+After=network-online.target
+Description=ansible-drift
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/ansible-drift {{ drift_playbook }}
+Type=simple
+User={{ drift_user }}

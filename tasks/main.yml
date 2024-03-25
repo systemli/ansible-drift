@@ -42,6 +42,26 @@
     path: /etc/cron.d/ansible-drift
     state: absent
 
+- name: Copy systemd service and timer configs
+  ansible.builtin.template:
+    dest: "/etc/systemd/system/{{ item }}"
+    mode: "0644"
+    src: "systemd/{{ item }}.j2"
+  loop:
+    - ansible-drift.service
+    - ansible-drift.timer
+  when: drift_playbook|d()
+
+- name: Enable systemd timer
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+    enabled: true
+    name: ansible-drift.timer
+    state: started
+  when:
+    - drift_playbook|d()
+    - not ansible_check_mode 
+
 - name: Make sure we have .gnupg dir
   ansible.builtin.file:
     path: /home/{{ drift_user }}/.gnupg
