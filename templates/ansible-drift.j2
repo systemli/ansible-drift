@@ -6,6 +6,7 @@ receiver="{{ drift_receiver }}"
 branch="{{ drift_branch }}"
 message="has drifted away"
 excluded_tags={{ drift_excluded_tags }}
+{% if drift_encrypt_mails  %}pubkey=~/pubkey.asc{% endif %}
 
 # set environment variable
 export ANSIBLE_DEPRECATION_WARNINGS=no
@@ -23,6 +24,20 @@ dir="$(dirname $1)"
 playbook="$(basename $1)"
 
 cd "$dir" || exit 1
+
+{% if drift_encrypt_mails  %}
+# check if pgp key is valid
+inspect=$(sq inspect $pubkey)
+if [ $? -ne 0 ]; then
+    echo "mails should be encrypted, but $pubkey is malformed\n" | mail -s "[ansible-drift] Malformed PGP pubkey" $receiver
+    exit 1
+fi
+invalid=$(echo $inspect | grep -i invalid)
+if [ $invalid -ne 1 ]; then
+    msg="mails should be encrypted, but $pubkey is invalid\n" | mail -s "[ansible-drift] Invalid PGP pubkey" $receiver
+    exit 1
+fi
+{% endif %}
 
 # make sure we're on the latest commit
 if [ -n "$branch" ]; then
@@ -42,6 +57,6 @@ fi
 for h in $hostlist; do
   body="$(ansible-playbook --flush-cache $playbook --limit $h --check --diff{% if drift_excluded_tags|length > 0 %} --skip-tags $excluded_tags{% endif %})"
   if [ -n "$body" ]; then
-    echo "$body" | mail -s "[ansible-drift] $h $message" $receiver
+    echo "$body" | {% if drift_encrypt_mails  %} sq encrypt --recipient-cert $pubkey |{% endif %} mail -s "[ansible-drift] $h $message" $receiver
   fi
 done

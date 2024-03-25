@@ -37,6 +37,33 @@
     mode: "0644"
   when: drift_ssh_private_key|d()
 
+- name: Make sure sq is installed
+  ansible.builtin.apt:
+    name: sq
+    update_cache: true
+  when: drift_encrypt_mails
+
+- name: Install pgp public key
+  when: drift_encrypt_mails
+  block:
+  - name: Assert that public pgp key is non-empty
+    ansible.builtin.assert:
+      that: "drift_pgp_public_key != ''"
+      fail_msg: "'drift_encrypt_mails' is true but 'drift_pgp_public_key' is empty"
+
+  - name: Make sure we have pgp public key
+    ansible.builtin.copy:
+      content: "{{ drift_pgp_public_key }}\n"
+      dest: /home/{{ drift_user }}/pubkey.asc
+      owner: "{{ drift_user }}"
+      group: "{{ drift_user }}"
+      mode: "0644"
+
+  - name: Make sure pgp public key is not malformed
+    ansible.builtin.command:
+      cmd: "sq inspect /home/{{ drift_user }}/pubkey.asc"
+    changed_when: False
+
 - name: Create cron job
   ansible.builtin.template:
     src: cron.j2

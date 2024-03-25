@@ -19,3 +19,8 @@ drift_branch: ""
 
 # exlucded tags as a comma separated list drift_excluded_tags: "first_tag,second_tag"
 drift_excluded_tags: ""
+
+drift_encrypt_mails: false
+
+# if the above variable is set to true, provide a public pgp key as string:
+drift_pgp_public_key: ""
