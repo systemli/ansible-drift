@@ -247,12 +247,12 @@ class CallbackModule(CallbackBase):
         pass
 
     def v2_runner_retry(self, result):
-        task_name = result.task_name or result._task
-        host_label = self.host_label(result)
-        msg = "FAILED - RETRYING: [%s]: %s (%d retries left)." % (host_label, task_name, result._result['retries'] - result._result['attempts'])
         if self._run_is_verbose(result, verbosity=2):
+            task_name = result.task_name or result._task
+            host_label = self.host_label(result)
+            msg = "FAILED - RETRYING: [%s]: %s (%d retries left)." % (host_label, task_name, result._result['retries'] - result._result['attempts'])
             msg += "Result was: %s" % self._dump_results(result._result)
-        self._display.display(msg, color=C.COLOR_DEBUG)
+            self._display.display(msg, color=C.COLOR_DEBUG)
 
     def v2_runner_on_async_poll(self, result):
         pass
