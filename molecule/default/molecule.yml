@@ -10,7 +10,7 @@ lint: |
   yamllint .
   ansible-lint
 platforms:
-  - name: instance
-    box: debian/bookworm64
+  - name: trixie64
+    box: debian/trixie64
 provisioner:
   become: true
