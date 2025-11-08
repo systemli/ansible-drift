@@ -26,7 +26,7 @@
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
     mode: "0600"
-  when: drift_ssh_private_key|d()
+  when: drift_ssh_private_key is defined
 
 - name: Make sure we have ssh public key
   ansible.builtin.copy:
@@ -35,7 +35,7 @@
     owner: "{{ drift_user }}"
     group: "{{ drift_user }}"
     mode: "0644"
-  when: drift_ssh_private_key|d()
+  when: drift_ssh_private_key is defined
 
 - name: Remove cron job
   ansible.builtin.file:
@@ -50,7 +50,7 @@
   loop:
     - ansible-drift.service
     - ansible-drift.timer
-  when: drift_playbook|d()
+  when: drift_playbook is defined
 
 - name: Enable systemd timer
   ansible.builtin.systemd_service:
@@ -59,7 +59,7 @@
     name: ansible-drift.timer
     state: started
   when:
-    - drift_playbook|d()
+    - drift_playbook is defined
     - not ansible_check_mode 
 
 - name: Make sure we have .gnupg dir
