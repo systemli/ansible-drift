@@ -19,3 +19,6 @@ drift_branch: ""
 
 # exlucded tags as a comma separated list drift_excluded_tags: "first_tag,second_tag"
 drift_excluded_tags: ""
+
+drift_prometheus_dir: "/var/lib/prometheus/node-exporter"
+drift_prometheus_file: "ansible_drift.prom"
