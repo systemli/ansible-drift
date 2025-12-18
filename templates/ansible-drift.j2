@@ -6,6 +6,7 @@ receiver="{{ drift_receiver }}"
 branch="{{ drift_branch }}"
 message="has drifted away"
 excluded_tags={{ drift_excluded_tags }}
+prometheus_tmp_file="/tmp/{{ drift_prometheus_file }}.tmp"
 
 # set environment variable
 export ANSIBLE_DEPRECATION_WARNINGS=no
@@ -37,12 +38,31 @@ if [ -n "$branch" ]; then
   message="$message from $branch"
 fi
 
+{
+  echo "# HELP ansible_drift_duration_seconds Time taken for drift per machine, in seconds. -1 if drift wasn't successful, i.e. it ran into an error."
+  echo "# TYPE ansible_drift_duration_seconds gauge"
+} > "$prometheus_tmp_file"
+
 # test every host individually
 # if there is drift send it via mail
 
 for h in $hostlist; do
+  start_time=$(date +%s)
+
   body="$(ansible-playbook --flush-cache $playbook --limit $h --check --diff{% if drift_excluded_tags|length > 0 %} --skip-tags $excluded_tags{% endif %})"
+  exit_code=$?
+
+  end_time=$(date +%s)
+
+  drift_duration=$(echo "$end_time - $start_time" | bc)
+
   if [ -n "$body" ]; then
     echo "$body" | mail -s "[ansible-drift] $h $message" $receiver
+  fi
+
+  if [ $exit_code -eq 0 ]; then
+    echo "ansible_drift_duration_seconds{machine=\"$h\"} $drift_duration" >> "$prometheus_tmp_file"
+  else
+    echo "ansible_drift_duration_seconds{machine=\"$h\"} -1" >> "$prometheus_tmp_file"
   fi
 done

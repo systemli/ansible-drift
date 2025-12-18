@@ -5,5 +5,6 @@ Wants=network-online.target
 
 [Service]
 ExecStart=/usr/local/bin/ansible-drift {{ drift_playbook }}
+ExecStopPost=+/usr/bin/mv --force /tmp/{{ drift_prometheus_file }}.tmp {{ drift_prometheus_dir }}/{{ drift_prometheus_file }}
 Type=simple
 User={{ drift_user }}
