@@ -39,12 +39,14 @@ if [ -n "$branch" ]; then
 fi
 
 {
-  echo "# HELP ansible_drift_duration_seconds Time taken for drift per machine, in seconds. -1 if drift wasn't successful, i.e. it ran into an error."
+  echo "# HELP ansible_drift_duration_seconds Time taken for drift, by machine and overall, in seconds. For the former, -1 if drift wasn't successful, i.e. it ran into an error."
   echo "# TYPE ansible_drift_duration_seconds gauge"
 } > "$prometheus_tmp_file"
 
 # test every host individually
 # if there is drift send it via mail
+
+START_TIME=$(date +%s)
 
 for h in $hostlist; do
   start_time=$(date +%s)
@@ -66,3 +68,8 @@ for h in $hostlist; do
     echo "ansible_drift_duration_seconds{machine=\"$h\"} -1" >> "$prometheus_tmp_file"
   fi
 done
+
+END_TIME=$(date +%s)
+DRIFT_DURATION=$(echo "$END_TIME - $START_TIME" | bc)
+
+echo "ansible_drift_duration_seconds{overall} $DRIFT_DURATION" >> "$prometheus_tmp_file"
