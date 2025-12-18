@@ -39,8 +39,10 @@ if [ -n "$branch" ]; then
 fi
 
 {
-  echo "# HELP ansible_drift_duration_seconds Time taken for drift, by machine and overall, in seconds. For the former, -1 if drift wasn't successful, i.e. it ran into an error."
-  echo "# TYPE ansible_drift_duration_seconds gauge"
+  echo "# HELP ansible_drift_duration_machine_seconds Time taken for drift, by machine, in seconds. -1 if drift wasn't successful, i.e. it ran into an error."
+  echo "# TYPE ansible_drift_duration_machine_seconds gauge"
+  echo "# HELP ansible_drift_duration_overall_seconds Time taken for drift, overall, in seconds."
+  echo "# TYPE ansible_drift_duration_overall_seconds gauge"
 } > "$prometheus_tmp_file"
 
 # test every host individually
@@ -63,13 +65,13 @@ for h in $hostlist; do
   fi
 
   if [ $exit_code -eq 0 ]; then
-    echo "ansible_drift_duration_seconds{machine=\"$h\"} $drift_duration" >> "$prometheus_tmp_file"
+    echo "ansible_drift_duration_machine_seconds{machine=\"$h\"} $drift_duration" >> "$prometheus_tmp_file"
   else
-    echo "ansible_drift_duration_seconds{machine=\"$h\"} -1" >> "$prometheus_tmp_file"
+    echo "ansible_drift_duration_machine_seconds{machine=\"$h\"} -1" >> "$prometheus_tmp_file"
   fi
 done
 
 END_TIME=$(date +%s)
 DRIFT_DURATION=$(echo "$END_TIME - $START_TIME" | bc)
 
-echo "ansible_drift_duration_seconds{overall} $DRIFT_DURATION" >> "$prometheus_tmp_file"
+echo "ansible_drift_duration_overall_seconds $DRIFT_DURATION" >> "$prometheus_tmp_file"
