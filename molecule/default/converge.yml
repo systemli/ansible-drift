@@ -4,3 +4,6 @@
   become: true
   roles:
     - role: ansible-drift
+      vars:
+        drift_playbook: /tmp/test-playbook.yml
+        drift_environment_file: /etc/default/ansible-drift
