@@ -4,6 +4,9 @@ Description=ansible-drift
 Wants=network-online.target
 
 [Service]
+{% if drift_environment_file is defined %}
+EnvironmentFile={{ drift_environment_file }}
+{% endif %}
 ExecStart=/usr/local/bin/ansible-drift {{ drift_playbook }}
 ExecStopPost=+/usr/bin/mv --force /tmp/{{ drift_prometheus_file }}.tmp {{ drift_prometheus_dir }}/{{ drift_prometheus_file }}
 Type=simple

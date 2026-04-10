@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Read ansible-drift service file
+      ansible.builtin.slurp:
+        src: /etc/systemd/system/ansible-drift.service
+      register: service_file
+
+    - name: Verify EnvironmentFile is set
+      ansible.builtin.assert:
+        that:
+          - "'EnvironmentFile=/etc/default/ansible-drift' in service_file.content | b64decode"
+        fail_msg: "EnvironmentFile directive not found in ansible-drift.service"
+        success_msg: "EnvironmentFile directive is correctly set"
