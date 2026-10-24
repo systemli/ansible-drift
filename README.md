@@ -46,23 +46,19 @@ $ ansible-galaxy install systemli.drift
     drift_playbook: /home/ansible/ansible/site.yml
 ```
 
-Testing & Development
----------------------
+## Supported Platforms
 
-Tests
------
+Debian 13 (trixie) and Debian 12 (bookworm). Both are tested in CI.
 
-For developing and testing the role we use Github Actions, Molecule, and Vagrant. On the local environment you can easily test the role with
+## Testing & Development
 
-Run local tests with:
+The role is tested with GitHub Actions and Molecule using the Docker driver. To test locally, install Docker, `molecule`, `molecule-plugins[docker]` and `ansible-lint`, then run:
 
 ```
-molecule test 
+molecule test
 ```
 
-Requires Molecule, Vagrant and `python-vagrant` to be installed.For developing and testing the role we use Travis CI, Molecule and Vagrant. On the local environment you can easily test the role with
-
-
+Use `molecule converge` and `molecule login` to iterate on a running container.
 
 ## License
 
