@@ -11,7 +11,7 @@ Each host in hostlist will be checked separately.
 
 ```
 # a bash compatible list of hosts you want to check
-drift_hostlist: "{{ groups['all']|sort|join(' ') }}"
+drift_hostlist: "\n  {{ groups['all']|sort|join('\n  ') }}\n"
 
 # send mails to
 drift_receiver: root
@@ -20,13 +20,28 @@ drift_receiver: root
 drift_user: ansible
 
 # define playbook to be regularly executed
+# the systemd service and timer are only installed if this is set
 # drift_playbook:
 
 # define a git branch to pull
-# drift_branch: "origin main"
+# drift_branch: "origin master"
 drift_branch: ""
 
+# comma separated list of tags to skip
+# drift_excluded_tags: "first_tag,second_tag"
+drift_excluded_tags: ""
+
+# Prometheus node exporter textfile
+drift_prometheus_dir: /var/lib/prometheus/node-exporter
+drift_prometheus_file: ansible_drift.prom
+
+# SSH key pair for the drift user (optional)
+# drift_ssh_public_key is required if drift_ssh_private_key is set
+# drift_ssh_private_key:
+# drift_ssh_public_key:
 ```
+
+See `meta/argument_specs.yml` for all variables.
 
 ## Download
 
