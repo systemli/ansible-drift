@@ -9,17 +9,14 @@ argument_specs:
         type: str
         description:
           - Bash compatible list of hosts to check.
-        default: "\n  {{ groups['all']|sort|join('\n  ') }}\n"
       drift_receiver:
         type: str
         description:
           - Mail recipient of the drift reports.
-        default: root
       drift_user:
         type: str
         description:
           - User under which ansible-drift runs.
-        default: ansible
       drift_playbook:
         type: str
         description:
@@ -29,22 +26,18 @@ argument_specs:
         type: str
         description:
           - Git branch to pull, for example C(origin master).
-        default: ""
       drift_excluded_tags:
         type: str
         description:
           - Comma separated list of tags to skip, for example C(first_tag,second_tag).
-        default: ""
       drift_prometheus_dir:
         type: str
         description:
           - Directory where the Prometheus node exporter textfile is written.
-        default: /var/lib/prometheus/node-exporter
       drift_prometheus_file:
         type: str
         description:
           - File name of the Prometheus metrics file.
-        default: ansible_drift.prom
       drift_ssh_private_key:
         type: str
         description:
