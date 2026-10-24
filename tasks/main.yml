@@ -60,7 +60,7 @@
     state: started
   when:
     - drift_playbook is defined
-    - not ansible_check_mode 
+    - not ansible_check_mode
 
 - name: Make sure we have .gnupg dir
   ansible.builtin.file:

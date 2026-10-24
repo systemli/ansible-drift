@@ -3,7 +3,9 @@ argument_specs:
   main:
     short_description: Regularly check hosts for configuration drift with ansible-drift
     description:
-      - Installs the C(ansible-drift) script and, if C(drift_playbook) is set, a systemd service and timer which run the playbook in check mode against all hosts and report differences.
+      - >-
+        Installs the C(ansible-drift) script and, if C(drift_playbook) is set, a systemd service and timer
+        which run the playbook in check mode against all hosts and report differences.
     options:
       drift_hostlist:
         type: str
