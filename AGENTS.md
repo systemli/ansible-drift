@@ -9,12 +9,12 @@ Ansible role `systemli.drift` that installs ansible-drift, a script that mails c
 - `templates/`: `ansible-drift.j2` script and `systemd/` unit templates
 - `callback_plugins/`: Ansible callback plugin used by the script
 - `meta/`: Galaxy metadata
-- `molecule/default/`: molecule scenario (vagrant driver)
+- `molecule/default/`: molecule scenario (Docker driver, Debian 13); CI generates its own `molecule/github` scenario that reuses `converge.yml`
 
 ## Checks
 
 - `ansible-lint .` (config in `.ansible-lint`) and `yamllint .` (config in `.yamllint`) must pass
-- `molecule test` needs Vagrant and VirtualBox; CI runs the integration workflow on Debian 12 and 13
+- `molecule test` needs Docker and `molecule-plugins[docker]`; CI tests Debian 12 and 13
 - `ansible-lint` creates `.ansible/`; it is git ignored, never commit it
 
 ## Conventions
