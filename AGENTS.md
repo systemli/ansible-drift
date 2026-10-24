@@ -13,7 +13,7 @@ Ansible role `systemli.drift` that installs ansible-drift, a script that mails c
 
 ## Checks
 
-- `ansible-lint .` (config in `.ansible-lint`) and `yamllint .` (config in `.yamllint`) must pass
+- `ansible-lint` (default config, no repo-specific rules) must pass
 - `molecule test` needs Docker and `molecule-plugins[docker]`; CI tests Debian 12 and 13
 - `ansible-lint` creates `.ansible/`; it is git ignored, never commit it
 
